@@ -34,6 +34,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import com.raywenderlich.android.octomembers.R
 import com.raywenderlich.android.octomembers.model.Member
@@ -78,14 +81,36 @@ class MemberActivity : AppCompatActivity(), MemberContract.View {
 
   override fun showMember(member: Member) {
     Picasso.with(memberAvatar.context).load(member.avatarUrl).into(memberAvatar)
-    memberName.text = member.name
-    memberLogin.text = member.login
-    memberCompany.text = member.company
-    memberEmail.text = member.email
-    memberType.text = member.type
+
+    showMemberName(member)
+    showMemberInfo(member)
   }
 
   override fun showErrorRetrievingMember() {
     Toast.makeText(this, getString(R.string.error_retrieving_member), Toast.LENGTH_SHORT).show()
+  }
+
+  private fun showMemberName(member: Member) {
+    if (member.name != null && member.name.isNotEmpty()) {
+      memberName.text = member.name
+    } else {
+      memberName.visibility = View.GONE
+    }
+  }
+
+  fun showMemberInfo(member : Member){
+    showStringInFieldOrGone(member.login, memberLogin, memberLoginContainer)
+    showStringInFieldOrGone(member.company, memberCompany, memberCompanyContainer)
+    showStringInFieldOrGone(member.email, memberEmail, memberEmailContainer)
+    showStringInFieldOrGone(member.type, memberType, memberTypeContainer)
+
+  }
+
+  fun showStringInFieldOrGone(string : String? , textView : TextView, container : ViewGroup){
+    if(string!=null && !string.isEmpty()){
+      textView.text = string
+    }else{
+      container.visibility = View.GONE
+    }
   }
 }

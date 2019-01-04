@@ -69,7 +69,7 @@ class TeamMemberAdapter(var members: List<Member>) : RecyclerView.Adapter<TeamMe
 
     override fun onClick(view: View) {
       val context = view.context
-      val intent = MemberActivity.newIntent(context, member.login)
+      val intent = MemberActivity.newIntent(context, member.login!!)
       context.startActivity(intent)
     }
   }
